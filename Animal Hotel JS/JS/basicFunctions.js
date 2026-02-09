@@ -24,3 +24,9 @@ function showDifferentMenu(button, menuToShow, menuToHide1, menuToHide2, menuToH
         menuToHide3.style.display = "none";
     })
 }
+
+const loanMoneyButton = document.getElementById("money-btn");
+takeOutLoan(loanMoneyButton);
+function takeOutLoan(button){
+    let moneyOfUser = document.getElementById("stat-money");
+}
