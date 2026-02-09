@@ -165,7 +165,7 @@ main {
     margin-bottom: 30px;
 }
 
-#menu, #hotel-view {
+#menu, .hotel-view {
     background: #2a2a2a;
     padding: 15px;
     border: 3px solid #8b4513;

@@ -16,14 +16,26 @@ class SystemFunctions {
     }
     
     static fillAnimalLine(){
+        const parentUl = document.getElementById("line-list");
+        const generator = new Randomizer();
+
+        while(this.animalsInLine.length < 5){
+            generator.generateRandomAnimal();
+        }
+
+        parentUl.innerHTML = "";
+
         for(let i of this.animalsInLine){
-            const parentUl = document.getElementById("line-list");
 
             const newLi = document.createElement("li");
-            newLi.textContent = `${i.name} the ${i.species}`;
+            newLi.textContent = `${i.name} the ${i.animalType}`;
             parentUl.appendChild(newLi);
         }
     }
+
+
+
+    
 }
 
 export { SystemFunctions };

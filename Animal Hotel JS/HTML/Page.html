@@ -51,7 +51,8 @@
                     <p>Menus</p>
                     <button id="open-shop-btn" class="menu-btn">Open Shop</button>
                     <button id="animal-care-btn" class="menu-btn">Animal care & maintenance</button>
-                    <button id="bank-menu-btn" class="menu-btn" style="margin-bottom: 20px;">Bank menu</button>
+                    <button id="bank-menu-btn" class="menu-btn">Bank menu</button>
+                    <button id="guest-menu-btn" class="menu-btn" style="margin-bottom: 20px;">Guest menu</button>
 
                     <p>Actions</p>
                     <button id="check-in-btn">Check animal in</button>
@@ -63,8 +64,27 @@
                 </div>
             </section>
 
-            <section id="hotel-view">
+            <section id="guest-menu" class="hotel-view">
                 <h2>🏠 Current Guests</h2>
+                <div id="animal-list">
+                    <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                </div>
+            </section>
+            <section id="shop-menu" class="hotel-view" style="display: none;">
+                <h2>🏪 Shop menu</h2>
+                <div id="animal-list">
+                    <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                </div>
+            </section>
+            <section id="care-menu" class="hotel-view" style="display: none;">
+                <h2>🤚 Care & maintenance menu</h2>
+                <div id="animal-list">
+                    <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                </div>
+            </section>
+            <!--Options: Take out loan-->
+            <section id="bank-menu" class="hotel-view" style="display: none;">
+                <h2>🪙 Bank menu</h2>
                 <div id="animal-list">
                     <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
                 </div>
@@ -96,6 +116,7 @@
         </footer>
     </div>
 
+    <script src="../JS/basicFunctions.js"></script>
     <script src="../JS/animal.js" type="module" defer></script>
     <script src="../JS/register.js" type="module" defer></script>
     <script src="../JS/functions.js" type="module" defer></script>

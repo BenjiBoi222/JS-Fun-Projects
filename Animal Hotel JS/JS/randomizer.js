@@ -7,17 +7,19 @@ import { SystemFunctions} from "./systemFunctions.js";
 class Randomizer {
     constructor() {}
     generateRandomAnimal(){
+        const foodTypes = ["Beef", "Chicken", "Pork", "Apple","Carrot", "Potat"]
         const animalTypes = ["Dog", "Cat", "Rabbit", "Hamster", "Parrot"];
         const animalNameOptions = ["Buddy", "Mittens", "Fluffy", "Charlie", "Luna", "Max", "Bella", "Rocky", "Daisy", "Oliver"];
 
-        const randomType = animalTypes[Math.floor(Math.random() * animalTypes.length)];
-        const randomName = animalNameOptions[Math.floor(Math.random() * animalNameOptions.length)];
-        const amountOfDayLeft = Math.floor(Math.random() * 7) + 1;
-        const randomSize = Math.floor(Math.random() * 3) + 1; // 1: Small, 2: Medium, 3: Large
-        const animalAmountOfFoodPerDay = this.calculateFood(randomSize);
-        const animalMoneyForAnimal = this.calculateMoney(randomSize, amountOfDayLeft);
+        let randomType = animalTypes[Math.floor(Math.random() * animalTypes.length)];
+        let randomFood = foodTypes[Math.floor(Math.random() * foodTypes.length)]
+        let randomName = animalNameOptions[Math.floor(Math.random() * animalNameOptions.length)];
+        let amountOfDayLeft = Math.floor(Math.random() * 7) + 1;
+        let randomSize = Math.floor(Math.random() * 3) + 1; // 1: Small, 2: Medium, 3: Large
+        let animalAmountOfFoodPerDay = this.calculateFood(randomSize);
+        let animalMoneyForAnimal = this.calculateMoney(randomSize, amountOfDayLeft);
 
-        const animal = new Animal(randomName,amountOfDayLeft,randomSize,animalMoneyForAnimal,);
+        let animal = new Animal(randomName,amountOfDayLeft,randomSize,animalMoneyForAnimal,randomType,randomFood, animalAmountOfFoodPerDay);
         SystemFunctions.addAnimal(animal);
     };
     calculateFood(animalSize){
