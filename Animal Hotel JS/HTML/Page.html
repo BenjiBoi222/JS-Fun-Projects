@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal Hotel - Game</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+    <!-- Hotel Name Popup Modal -->
+    <div id="name-modal" class="modal">
+        <div class="modal-content">
+            <h2>Create Your Hotel</h2>
+            <p>What would you like to name your animal hotel?</p>
+            <input type="text" id="hotel-name-input" placeholder="Enter hotel name..." maxlength="30">
+            <button id="confirm-name-btn">Start Game</button>
+        </div>
+    </div>
+
+    <div id="game-container">
+        <header>
+            <div class="header-content">
+                <h1 id="hotel-name">Your Hotel</h1>
+                <p class="subtitle">Welcome to your dream hotel!</p>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">💰 Money</span>
+                    <span class="stat-value" id="stat-money">$500</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">📅 Day</span>
+                    <span class="stat-value" id="stat-day">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🛏️ Occupancy</span>
+                    <span class="stat-value" id="stat-capacity">0 / 4</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">⭐ Rating</span>
+                    <span class="stat-value" id="stat-rating">5.0</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section id="menu">
+                <h2>🎮 Game Menu</h2>
+                <div id="button-grid">
+                    <p>Menus</p>
+                    <button id="open-shop-btn" class="menu-btn">Open Shop</button>
+                    <button id="animal-care-btn" class="menu-btn">Animal care & maintenance</button>
+                    <button id="bank-menu-btn" class="menu-btn" style="margin-bottom: 20px;">Bank menu</button>
+
+                    <p>Actions</p>
+                    <button id="check-in-btn">Check animal in</button>
+                    <button id="check-out-btn">Check animal out</button>
+                    <button id="clean-up-btn">Clean up mess</button>
+                    <button id="pass-day-btn">Pass a day</button>
+                    
+
+                </div>
+            </section>
+
+            <section id="hotel-view">
+                <h2>🏠 Current Guests</h2>
+                <div id="animal-list">
+                    <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                </div>
+            </section>
+        </main>
+
+        <section id="info-panel">
+            <h2>📊 Hotel Information</h2>
+            <div id="info-content">
+                <div class="info-card">
+                    <h3>Animals in line:</h3>
+                    <ul id="line-list">
+                        <li>No animals waiting yet.</li>
+                </div>
+                <div class="info-card">
+                    <h3>💡 Tips</h3>
+                    <ul>
+                        <li>Feed your guests daily to keep them happy</li>
+                        <li>Keep rooms clean for better ratings</li>
+                        <li>Happy animals = Better tips = More money</li>
+                        <li>Build your reputation to attract better guests</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div id="log">Welcome to Animal Hotel! Your adventure awaits...</div>
+        </footer>
+    </div>
+
+    <script src="../JS/animal.js" type="module" defer></script>
+    <script src="../JS/register.js" type="module" defer></script>
+    <script src="../JS/functions.js" type="module" defer></script>
+    <script src="../JS/systemFunctions.js" type="module" defer></script>
+</body>
+</html>
