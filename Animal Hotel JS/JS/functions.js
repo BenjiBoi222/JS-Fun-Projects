@@ -81,6 +81,20 @@ function checkInSelectedAnimal(e) {
 }
 
 /**
+ * Generates a formatted string of an animal's current needs.
+ * Only includes needs that are actually true.
+ * @param {Animal} animal - The animal to check needs for
+ * @returns {string} Comma-separated list of needs, or empty string if none
+ */
+function getAnimalNeeds(animal) {
+    const needs = [];
+    if (animal.needsWalk) needs.push("Walk");
+    if (animal.needsFood) needs.push("Food");
+    if (animal.needsWater) needs.push("Water");
+    return needs.join(", ");
+}
+
+/**
  * Updates the displayed list of guests currently in the hotel.
  */
 function updateGuestList() {
@@ -88,6 +102,9 @@ function updateGuestList() {
     guestList.innerHTML = "";
     for (let i = 0; i < hotel.animalsInHotel.length; i++) {
         const animal = hotel.animalsInHotel[i];
+        const animalNeeds = getAnimalNeeds(animal);
+        const hasNeeds = animal.needsWalk || animal.needsFood || animal.needsWater;
+
         const newCard = document.createElement("div");
         newCard.className = "guest-card";
         newCard.id = `guest-card-${i + 1}`;
@@ -105,6 +122,18 @@ function updateGuestList() {
                     <span class="label">Days Left:</span>
                     <span class="value days-left">${animal.amountOfDayLeft}</span>
                 </div>
+                <div class="detail-row">    
+                    <span class="label">Type of food:</span>
+                    <span class="value">${animal.needFoodType}</span>
+                </div>
+                <div class="detail-row">    
+                    <span class="label">Food amount a day:</span>
+                    <span class="value">${animal.amountOfFoodPerDay}</span>
+                </div>
+                ${hasNeeds ? `<div class="detail-row">    
+                    <span class="label">Animal needs:</span>
+                    <span class="value">${animalNeeds}</span>
+                </div>` : ""}
             </div>
         `;
         guestList.appendChild(newCard);
@@ -176,10 +205,11 @@ function passDay(e) {
     const moneyDisplay = document.getElementById("stat-money");
     moneyDisplay.textContent = `$${hotel.hotelMoney}`;
 
-    // Decrease remaining days for each animal
+    // Decrease remaining days for each animal and reset their daily needs
     if (hotel.animalsInHotel.length > 0) {
         for (let animal of hotel.animalsInHotel) {
             animal.amountOfDayLeft--;
+            animal.newNeedsForDay();
         }
     }
 
@@ -193,4 +223,5 @@ function passDay(e) {
 
     // Update guest list to reflect changes
     updateGuestList();
+
 }   

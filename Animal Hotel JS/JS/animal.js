@@ -27,24 +27,33 @@ class Animal {
     }
 
     /**
-     * Indicates that the animal has been walked.
+     * Takes animal to a walk.
      */
     walk() {
         this.needsWalk = false;
     }
 
     /**
-     * Indicates that the animal has been fed.
+     * Gives food to the animal.
      */
     feed() {
         this.needsFood = false;
     }
 
     /**
-     * Indicates that the animal has had water.
+     * Gives water to the animal.
      */
     water() {
         this.needsWater = false;
+    }
+
+    /**
+     * Each day resets the animals needs.
+     */
+    newNeedsForDay(){
+        this.needsWalk = true;
+        this.needsFood = true;
+        this.needsWater = true;
     }
 }
 
