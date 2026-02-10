@@ -86,8 +86,126 @@
             </section>
             <section id="shop-menu" class="hotel-view" style="display: none;">
                 <h2>🏪 Shop menu</h2>
-                <div id="animal-list">
-                    <p id="empty-message-shop" class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                <div id="shop-list" style="margin-top: 10px;">
+                    <button id="buy-food-btn">Buy food</button>
+                    <button id="buy-slots-btn">Buy more slots</button>
+                    <button id="hire-worker-btn">Hire worker</button>
+                </div>
+                <div id="food-shop-display" class="shop-display" style="display: none; margin-top: 20px;">
+                    <h3>🍖 Buy Food</h3>
+                    <table class="shop-table">
+                        <thead>
+                            <tr>
+                                <th>Food Type</th>
+                                <th>Price per Unit</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Beef</td>
+                                <td>$15</td>
+                                <td><button class="buy-food-item" data-food="Beef" data-price="15">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>Chicken</td>
+                                <td>$12</td>
+                                <td><button class="buy-food-item" data-food="Chicken" data-price="12">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>Pork</td>
+                                <td>$14</td>
+                                <td><button class="buy-food-item" data-food="Pork" data-price="14">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>Apple</td>
+                                <td>$8</td>
+                                <td><button class="buy-food-item" data-food="Apple" data-price="8">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>Carrot</td>
+                                <td>$7</td>
+                                <td><button class="buy-food-item" data-food="Carrot" data-price="7">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>Potato</td>
+                                <td>$6</td>
+                                <td><button class="buy-food-item" data-food="Potato" data-price="6">Buy</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="slots-shop-display" class="shop-display" style="display: none; margin-top: 20px;">
+                    <h3>🛏️ Buy Hotel Slots</h3>
+                    <table class="shop-table">
+                        <thead>
+                            <tr>
+                                <th>Slots</th>
+                                <th>Purchase Cost</th>
+                                <th>Daily Maintenance</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1 Slot</td>
+                                <td>$50</td>
+                                <td>$10/day</td>
+                                <td><button class="buy-slots-item" data-slots="1" data-cost="50">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>2 Slots</td>
+                                <td>$100</td>
+                                <td>$20/day</td>
+                                <td><button class="buy-slots-item" data-slots="2" data-cost="100">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>4 Slots</td>
+                                <td>$200</td>
+                                <td>$40/day</td>
+                                <td><button class="buy-slots-item" data-slots="4" data-cost="200">Buy</button></td>
+                            </tr>
+                            <tr>
+                                <td>8 Slots</td>
+                                <td>$400</td>
+                                <td>$80/day</td>
+                                <td><button class="buy-slots-item" data-slots="8" data-cost="400">Buy</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="worker-shop-display" class="shop-display" style="display: none; margin-top: 20px;">
+                    <h3>👤 Hire Workers</h3>
+                    <table class="shop-table">
+                        <thead>
+                            <tr>
+                                <th>Workers</th>
+                                <th>Purchase Cost</th>
+                                <th>Daily Salary</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1 Worker</td>
+                                <td>$100</td>
+                                <td>$30/day</td>
+                                <td><button class="hire-worker-item" data-workers="1" data-cost="100">Hire</button></td>
+                            </tr>
+                            <tr>
+                                <td>2 Workers</td>
+                                <td>$200</td>
+                                <td>$60/day</td>
+                                <td><button class="hire-worker-item" data-workers="2" data-cost="200">Hire</button></td>
+                            </tr>
+                            <tr>
+                                <td>4 Workers</td>
+                                <td>$400</td>
+                                <td>$120/day</td>
+                                <td><button class="hire-worker-item" data-workers="4" data-cost="400">Hire</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
             <section id="care-menu" class="hotel-view" style="display: none;">
@@ -123,19 +241,29 @@
                         <li>No animals waiting yet.</li>
                 </div>
                 <div class="info-card">
-                    <h3>💡 Tips</h3>
-                    <ul>
-                        <li>Feed your guests daily to keep them happy</li>
-                        <li>Keep rooms clean for better ratings</li>
-                        <li>Happy animals = Better tips = More money</li>
-                        <li>Build your reputation to attract better guests</li>
+                    <h3>⭐ Level & XP</h3>
+                    <div id="level-info">
+                        <p>Level: <span id="hotel-level">1</span></p>
+                        <p>XP: <span id="hotel-xp">0</span> / <span id="hotel-xp-max">100</span></p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <h3>📦 Food Stock</h3>
+                    <ul id="food-stock-list">
+                        <li>No food in stock</li>
                     </ul>
                 </div>
             </div>
         </section>
 
         <footer>
-            <div id="log">Welcome to Animal Hotel! Your adventure awaits...</div>
+            <div id="log">
+                <h3>Manual</h3>
+                <p>Check animals in</p>
+                <p>Give them care so they wont be unsatisfied</p>
+                <p>Earn xp to level up</p>
+                <p>Level up gives you more updgrade options</p>
+            </div>
         </footer>
     </div>
 
@@ -144,5 +272,6 @@
     <script src="../JS/register.js" type="module" defer></script>
     <script src="../JS/functions.js" type="module" defer></script>
     <script src="../JS/systemFunctions.js" type="module" defer></script>
+    <script src="../JS/shop.js" type="module" defer></script>
 </body>
 </html>

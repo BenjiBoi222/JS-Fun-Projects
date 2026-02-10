@@ -51,6 +51,7 @@ class Randomizer {
         const randomSize = Math.floor(Math.random() * 3) + 1; // 1: Small, 2: Medium, 3: Large
         const amountOfFoodPerDay = this.calculateFood(randomSize);
         const moneyForAnimal = this.calculateMoney(randomSize, amountOfDayLeft);
+        const xp = randomSize * 25;
 
         const animal = new Animal(
             randomName,
@@ -59,7 +60,8 @@ class Randomizer {
             moneyForAnimal,
             randomType,
             randomFood,
-            amountOfFoodPerDay
+            amountOfFoodPerDay,
+            xp
         );
         SystemFunctions.addAnimal(animal);
     }

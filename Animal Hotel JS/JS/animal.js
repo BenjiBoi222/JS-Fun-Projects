@@ -12,8 +12,9 @@ class Animal {
      * @param {string} animalType - Type of animal (e.g., "Dog", "Cat")
      * @param {string} needFoodType - Type of food the animal needs
      * @param {number} amountOfFoodPerDay - Units of food consumed per day
+     * @param {number} xp - The amount of xp the player recieves after the animal leaves if satisfied 
      */
-    constructor(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay) {
+    constructor(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp) {
         this.name = name;
         this.amountOfDayLeft = amountOfDayLeft;
         this.animalSize = animalSize;
@@ -24,6 +25,7 @@ class Animal {
         this.needsWalk = false;
         this.needsFood = false;
         this.needsWater = false;
+        this.xp = xp;
     }
 
     /**
@@ -90,6 +92,7 @@ class Hotel {
         this.loanDayAmount = 0;
         this.dailyFee = Hotel.STARTING_DAILY_FEE;
         this.animalsInHotel = [];
+        this.foodInStock = [];
         this.dayCount = 1;
         this.dayInDebt = 0;
     }

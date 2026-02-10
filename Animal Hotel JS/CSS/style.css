@@ -248,6 +248,12 @@ button:active {
     color: #ccc;
     font-size: large;
 }
+#shop-list{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
 
 .animal-card {
     background: #1a1a1a;
@@ -329,19 +335,20 @@ button:active {
 .info-card h3 {
     color: #ffd700;
     margin-bottom: 10px;
-    font-size: 0.85em;
+    font-size: 2em;
     text-shadow: 1px 1px 0px #000;
 }
 
 .info-card p {
     color: #ccc;
-    font-size: 0.75em;
+    font-size: 1.5em;
     line-height: 1.5;
 }
 
 .info-card ul {
     list-style: none;
     padding-left: 0;
+    font-size: 1.5em;
 }
 
 .info-card li {
@@ -371,7 +378,7 @@ footer {
     border: 3px solid #8b4513;
     font-family: 'Courier New', monospace;
     color: #0f0;
-    height: 80px;
+    height: auto;
     overflow-y: auto;
     font-size: 0.75em;
     line-height: 1.4;
@@ -379,6 +386,10 @@ footer {
     text-shadow: 0 0 5px #0f0;
 }
 
+#log h3{
+    font-size: 1.5em;
+}
+ 
 /* Scrollbar styling */
 #log::-webkit-scrollbar {
     width: 8px;
@@ -497,4 +508,82 @@ footer {
 
 .days-left {
     font-weight: bold;
+}
+
+/* Shop Display Styles */
+.shop-display {
+    background: #1a1a1a;
+    border: 3px solid #8b4513;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.shop-display h3 {
+    color: #ffd700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.shop-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #2a2a2a;
+    border: 2px solid #8b4513;
+}
+
+.shop-table thead {
+    background: #654321;
+    color: #fff;
+}
+
+.shop-table th,
+.shop-table td {
+    padding: 12px;
+    text-align: center;
+    border: 2px solid #8b4513;
+    font-size: 11px;
+    color: #fff;
+    font-family: 'Press Start 2P', monospace;
+}
+
+.shop-table th {
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #654321;
+}
+
+.shop-table tr:nth-child(even) {
+    background: #2a2a2a;
+}
+
+.shop-table tr:nth-child(odd) {
+    background: #333;
+}
+
+.shop-table tr:hover {
+    background: #3d3d3d;
+}
+
+.buy-food-item,
+.buy-slots-item {
+    background: #4CAF50;
+    color: white;
+    border: 2px solid #45a049;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    transition: all 0.2s;
+}
+
+.buy-food-item:hover,
+.buy-slots-item:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+.buy-food-item:active,
+.buy-slots-item:active {
+    transform: scale(0.95);
 }
