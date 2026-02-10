@@ -292,10 +292,15 @@ button:active {
     color: #ccc;
     font-size: large;
 }
-#shop-list{
+#shop-list, #care-list{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+}
+
+#care-menu h5{
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 
