@@ -32,7 +32,7 @@ function toggleAnimalSelection(e) {
             for (let i = 1; i <= SystemFunctions.animalsInLine.length; i++) {
                 const animalOption = document.getElementById(`animal-select-${i}`);
                 const animal = SystemFunctions.animalsInLine[i - 1];
-                animalOption.textContent = `${animal.name} the ${animal.animalType} | size: ${animal.animalSize} | days left: ${animal.amountOfDayLeft} | Money: $${animal.moneyForAnimal}`;
+                animalOption.textContent = `${animal.name} the ${animal.animalType} | size: ${animal.animalSize} | days left: ${animal.amountOfDayLeft} | Money: $${animal.moneyForAnimal} | Xp: ${animal.xp}`;
             }
         }
         divToShow.style.display = "grid";
@@ -92,6 +92,20 @@ function getAnimalNeeds(animal) {
     if (animal.needsFood) needs.push("Food");
     if (animal.needsWater) needs.push("Water");
     return needs.join(", ");
+}
+
+/**
+ * Updates the XP bar display based on current hotel XP.
+ */
+function updateXpBar() {
+    const xpBarFill = document.getElementById("xp-bar-fill");
+    const xpCurrent = document.getElementById("xp-current");
+    const xpMax = document.getElementById("xp-max");
+    
+    const percentageFilled = (hotel.currentXpAmount / hotel.xpToLevelUp) * 100;
+    xpBarFill.style.width = `${Math.min(percentageFilled, 100)}%`;
+    xpCurrent.textContent = hotel.currentXpAmount;
+    xpMax.textContent = hotel.xpToLevelUp;
 }
 
 /**
@@ -178,10 +192,24 @@ function checkOutAnimal(e) {
                 const moneyDisplay = document.getElementById("stat-money");
                 moneyDisplay.textContent = `$${hotel.hotelMoney}`;
 
+                hotel.currentXpAmount += animal.xp;
+
+
                 hotel.animalsInHotel.splice(i, 1);
             }
         }
         updateGuestList();
+        
+        hotel.tryLevelUp();
+        updateXpBar();
+        
+        let hotelXp = document.getElementById("hotel-xp");
+        let hotelXpMax = document.getElementById("hotel-xp-max");
+        let hotelLevel = document.getElementById("hotel-level");
+        
+        hotelXp.textContent = `${hotel.currentXpAmount}`;
+        hotelXpMax.textContent = `${hotel.xpToLevelUp}`;
+        hotelLevel.textContent = `${hotel.currentLevel}`;
     } else {
         alert("No animals are ready to check out yet!");
     }
@@ -205,6 +233,9 @@ function passDay(e) {
         for(let i = hotel.animalsInHotel.length - 1; i >= 0; i--){
             if(hotel.animalsInHotel[i].checkSatisfaction() == false){
                 alert(`${hotel.animalsInHotel[i].name} the ${hotel.animalsInHotel[i].animalType} left the hotel after not being take care of!`)
+                hotel.hotelCapacity += hotel.animalsInHotel[i].animalSize;
+                const capacityStat = document.getElementById("stat-capacity");
+                capacityStat.textContent = `${TOTAL_HOTEL_SPACES - hotel.hotelCapacity} / ${TOTAL_HOTEL_SPACES}`;
                 hotel.animalsInHotel.splice(i, 1);
             }
         }
@@ -235,4 +266,14 @@ function passDay(e) {
     // Update guest list to reflect changes
     updateGuestList();
 
+    //We try to level up even after the day passes for more security
+    hotel.tryLevelUp();
+    updateXpBar();
+    let hotelXp = document.getElementById("hotel-xp");
+    let hotelXpMax = document.getElementById("hotel-xp-max");
+    let hotelLevel = document.getElementById("hotel-level");
+
+    hotelXp.textContent = `${hotel.currentXpAmount}`;
+    hotelXpMax.textContent = `${hotel.xpToLevelUp}`;
+    hotelLevel.textContent = `${hotel.currentLevel}`;      
 }   

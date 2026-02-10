@@ -78,24 +78,38 @@ class Hotel {
     static STARTING_DAILY_FEE = 40;
     static MAX_DAYS_IN_DEBT = 7;
     static LOAN_DURATION = 30;
+    static XP_TO_LEVEL_UP = 100;
 
     /**
      * Creates a new Hotel instance.
      * @param {string} name - The name of the hotel
      */
     constructor(name) {
+        //Hotel elements
         this.hotelCapacity = Hotel.DEFAULT_CAPACITY;
-        this.hotelMoney = Hotel.STARTING_MONEY;
         this.name = name;
         this.workersAmount = 0;
+        
+        //Every money element
         this.hasLoan = false;
         this.loanDayAmount = 0;
         this.dailyFee = Hotel.STARTING_DAILY_FEE;
+        this.hotelMoney = Hotel.STARTING_MONEY;
+
+        //Hotel lists
         this.animalsInHotel = [];
         this.foodInStock = [];
+
+        //Hotel day counters
         this.dayCount = 1;
         this.dayInDebt = 0;
+
+        //Hotel leveling system
+        this.xpToLevelUp = Hotel.XP_TO_LEVEL_UP;
+        this.currentLevel = 1;
+        this.currentXpAmount = 0;
     }
+
 
     /**
      * Adds an animal to the hotel.
@@ -136,6 +150,10 @@ class Hotel {
      * Alerts the player if they're in debt and triggers game over after 7 days.
      */
     checkDayInDebt() {
+        if (this.hotelMoney >= 0) {
+            this.dayInDebt = 0;
+        }
+
         if (this.dayInDebt === Hotel.MAX_DAYS_IN_DEBT) {
             alert("You have been in debt for 7 days. Game over!");
             location.reload();
@@ -147,6 +165,24 @@ class Hotel {
 
         if (this.hotelMoney < 0) {
             this.dayInDebt++;
+        }
+
+    }
+
+    /**
+     * Calculates how much xp needed for a new level
+     */
+    calculateXpNeeded(){
+        this.xpToLevelUp = XP_TO_LEVEL_UP * Math.floor(Math.sqrt(this.currentLevel));
+    }
+
+    /**
+     * Tries to level up the player if he has enough xp for it
+     */
+    tryLevelUp(){
+        if(this.currentXpAmount >= this.xpToLevelUp){
+            this.currentXpAmount -= this.xpToLevelUp;
+            this.currentLevel++;
         }
     }
 }
