@@ -1,3 +1,5 @@
+import { hotel } from "./register.js";
+
 const shopMenu = document.getElementById("shop-menu");
 const careMenu = document.getElementById("care-menu");
 const bankMenu = document.getElementById("bank-menu")
@@ -25,8 +27,33 @@ function showDifferentMenu(button, menuToShow, menuToHide1, menuToHide2, menuToH
     })
 }
 
-const loanMoneyButton = document.getElementById("money-btn");
-takeOutLoan(loanMoneyButton);
+const loanMoneyButton100 = document.getElementById("money-btn-100");
+const loanMoneyButton500 = document.getElementById("money-btn-500");
+const loanMoneyButton1000 = document.getElementById("money-btn-1000");
+const loanMoneyButton5000 = document.getElementById("money-btn-5000");
+takeOutLoan(loanMoneyButton100);
+takeOutLoan(loanMoneyButton500);
+takeOutLoan(loanMoneyButton1000);
+takeOutLoan(loanMoneyButton5000);
+
 function takeOutLoan(button){
     let moneyOfUser = document.getElementById("stat-money");
+
+    button.addEventListener('click',function(e){
+        e.preventDefault();
+        if(hotel.hasLoan == false){
+            let money = hotel.hotelMoney;
+            const loanAmount = parseInt(button.textContent.replace(/\D/g, ''));
+            money += loanAmount;
+            hotel.hotelMoney = money;
+            moneyOfUser.textContent = `$${hotel.hotelMoney}`;
+            hotel.hasLoan = true;
+            hotel.dailyFee += Math.floor(loanAmount / 30);
+            hotel.loanDayAmount = 30;
+            const dailyFeeElement = document.getElementById("stat-daily-fee");
+            dailyFeeElement.textContent = `$${hotel.dailyFee}`;
+        }else{
+            alert("You already have a loan. Pay it back before taking out another one.");
+        }
+    })
 }

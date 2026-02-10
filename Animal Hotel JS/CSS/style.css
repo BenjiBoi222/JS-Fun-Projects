@@ -416,3 +416,85 @@ footer {
         padding: 30px;
     }
 }
+
+/* Guest List Styling */
+.guest-list-container {
+    display: block;
+}
+
+.guest-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.guest-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 3px solid #8b4513;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(139, 69, 19, 0.1);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.guest-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(139, 69, 19, 0.2), 0 0 20px rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+}
+
+.guest-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #8b4513;
+}
+
+.guest-card-header h3 {
+    font-size: 1.1em;
+    color: #ffd700;
+    text-shadow: 2px 2px 0px #000;
+    margin: 0;
+}
+
+.guest-type {
+    background: #8b4513;
+    color: #ffd700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0px #000;
+}
+
+.guest-card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    padding: 5px 0;
+}
+
+.detail-row .label {
+    color: #ccc;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.detail-row .value {
+    color: #ffd700;
+    text-shadow: 1px 1px 0px #000;
+}
+
+.days-left {
+    font-weight: bold;
+}

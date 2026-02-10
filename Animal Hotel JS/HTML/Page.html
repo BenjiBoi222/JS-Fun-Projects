@@ -38,8 +38,8 @@
                     <span class="stat-value" id="stat-capacity">0 / 4</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">⭐ Rating</span>
-                    <span class="stat-value" id="stat-rating">5.0</span>
+                    <span class="stat-label">💵 Daily fee</span>
+                    <span class="stat-value" id="stat-daily-fee">$40</span>
                 </div>
             </div>
         </header>
@@ -66,14 +66,24 @@
 
             <section id="guest-menu" class="hotel-view">
                 <h2>🏠 Current Guests</h2>
-                <div id="animal-list">
-                    <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                <div id="animal-list" class="guest-list-container">
+                    <p id="empty-message-guest" class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                    <div id="animal-checked-in-list" class="guest-cards-grid">
+                    </div>
+                </div>
+                <div id="animal-selection" class="animal-select-buttons" style="margin-top: 20px; display: none; ">
+                    <h3 style="margin-bottom: 10px;">Choose animal</h3>
+                    <button id="animal-select-1"></button>
+                    <button id="animal-select-2"></button>
+                    <button id="animal-select-3"></button>
+                    <button id="animal-select-4"></button>
+                    <button id="animal-select-5"></button>
                 </div>
             </section>
             <section id="shop-menu" class="hotel-view" style="display: none;">
                 <h2>🏪 Shop menu</h2>
                 <div id="animal-list">
-                    <p class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
+                    <p id="empty-message-shop" class="empty-message">No animals staying yet. Start playing to welcome your first guest!</p>
                 </div>
             </section>
             <section id="care-menu" class="hotel-view" style="display: none;">
@@ -89,10 +99,13 @@
                     <button>Take out loan</button>
                 </div>
                 <div id="loan-list-grid">
-                    <button id="money-btn">100,00$</button>
-                    <button id="money-btn">500,00$</button>
-                    <button id="money-btn">1.000,00$</button>
-                    <button id="money-btn">5.000,00$</button>
+                    <button id="money-btn-100">100$</button>
+                    <button id="money-btn-500">500$</button>
+                    <button id="money-btn-1000">1000$</button>
+                    <button id="money-btn-5000">5000$</button>
+                </div>
+                <div id="loan-list">
+                    <p>Each loan needs 30 days to pay back</p>
                 </div>
             </section>
         </main>
@@ -122,7 +135,7 @@
         </footer>
     </div>
 
-    <script src="../JS/basicFunctions.js"></script>
+    <script src="../JS/basicFunctions.js" type="module"></script>
     <script src="../JS/animal.js" type="module" defer></script>
     <script src="../JS/register.js" type="module" defer></script>
     <script src="../JS/functions.js" type="module" defer></script>

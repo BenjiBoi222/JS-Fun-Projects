@@ -1,6 +1,8 @@
+import { Hotel} from "./animal.js";
 import { SystemFunctions } from "./systemFunctions.js";
 
 const nameSubmitButton = document.getElementById("confirm-name-btn");
+let hotel;
 
 nameSubmitButton.addEventListener("click", function(e){
     e.preventDefault();
@@ -20,7 +22,10 @@ nameSubmitButton.addEventListener("click", function(e){
     }
 
     if(registeredName){
+        hotel = new Hotel(hotelName);
         SystemFunctions.fillAnimalLine();
         nameModal.style.display = "none";
     }
 })
+
+export { hotel };

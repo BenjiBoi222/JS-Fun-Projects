@@ -25,17 +25,13 @@ class SystemFunctions {
 
         parentUl.innerHTML = "";
 
-        for(let i of this.animalsInLine){
-
+        for(let i = 0; i < this.animalsInLine.length; i++){
             const newLi = document.createElement("li");
-            newLi.textContent = `${i.name} the ${i.animalType}`;
+            newLi.textContent = `${i+1}) ${this.animalsInLine[i].name} the ${this.animalsInLine[i].animalType}`;
             parentUl.appendChild(newLi);
         }
     }
 
-
-
-    
 }
 
 export { SystemFunctions };
