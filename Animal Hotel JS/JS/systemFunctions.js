@@ -1,37 +1,63 @@
+/**
+ * @fileoverview System utility functions for managing game state and animal queue
+ */
+
 import { Randomizer } from "./randomizer.js";
-/** 
- * A class to hold various system functions that can be used across the application.
+
+/**
+ * A class to hold system functions that manage application state.
+ * Manages the waiting queue of animals and dynamically populates it.
+ * @class
  */
 class SystemFunctions {
-    // Static list to store all animals
+    /**
+     * Static list to store all animals waiting to check in
+     * @type {Array<Animal>}
+     */
     static animalsInLine = [];
+
+    /**
+     * Adds an animal to the waiting queue.
+     * @param {Animal} animal - The animal to add to the queue
+     */
     static addAnimal(animal) {
         this.animalsInLine.push(animal);
     }
+
+    /**
+     * Removes an animal from the waiting queue.
+     * @param {Animal} animal - The animal to remove from the queue
+     */
     static removeAnimal(animal) {
         const index = this.animalsInLine.indexOf(animal);
         if (index > -1) {
             this.animalsInLine.splice(index, 1);
         }
     }
-    
-    static fillAnimalLine(){
+
+    /**
+     * Fills the animal waiting queue up to 5 animals.
+     * Generates new random animals using the Randomizer class
+     * and updates the display list in the UI.
+     */
+    static fillAnimalLine() {
         const parentUl = document.getElementById("line-list");
         const generator = new Randomizer();
 
-        while(this.animalsInLine.length < 5){
+        // Generate animals until queue is full (5 animals)
+        while (this.animalsInLine.length < 5) {
             generator.generateRandomAnimal();
         }
 
+        // Clear and repopulate the display list
         parentUl.innerHTML = "";
 
-        for(let i = 0; i < this.animalsInLine.length; i++){
+        for (let i = 0; i < this.animalsInLine.length; i++) {
             const newLi = document.createElement("li");
-            newLi.textContent = `${i+1}) ${this.animalsInLine[i].name} the ${this.animalsInLine[i].animalType}`;
+            newLi.textContent = `${i + 1}) ${this.animalsInLine[i].name} the ${this.animalsInLine[i].animalType}`;
             parentUl.appendChild(newLi);
         }
     }
-
 }
 
 export { SystemFunctions };

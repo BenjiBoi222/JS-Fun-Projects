@@ -1,71 +1,96 @@
+/**
+ * @fileoverview Main game functions for animal check-in/out and gameplay mechanics
+ */
+
 import { Animal } from "./animal.js";
-import { SystemFunctions} from "./systemFunctions.js";
+import { SystemFunctions } from "./systemFunctions.js";
 import { Randomizer } from "./randomizer.js";
 import { hotel } from "./register.js";
 
-//1st function: Check animal in
+// Constants
+const TOTAL_HOTEL_SPACES = 4;
 
+// DOM Elements
 const checkInButton = document.getElementById("check-in-btn");
 const divToShow = document.getElementById("animal-selection");
+const animalOutButton = document.getElementById("check-out-btn");
+const passDayButton = document.getElementById("pass-day-btn");
 
-checkInButton.addEventListener('click', function(e){
+// Event listeners
+checkInButton.addEventListener('click', toggleAnimalSelection);
+animalOutButton.addEventListener('click', checkOutAnimal);
+passDayButton.addEventListener('click', passDay);
+
+/**
+ * Toggles the visibility of the animal selection menu.
+ * @param {Event} e - The click event
+ */
+function toggleAnimalSelection(e) {
     e.preventDefault();
-    if(divToShow.style.display == "none"){
-        if(SystemFunctions.animalsInLine.length > 0){
-            for(let i = 1; i <= SystemFunctions.animalsInLine.length; i++){
+    if (divToShow.style.display === "none") {
+        if (SystemFunctions.animalsInLine.length > 0) {
+            for (let i = 1; i <= SystemFunctions.animalsInLine.length; i++) {
                 const animalOption = document.getElementById(`animal-select-${i}`);
-                animalOption.textContent = `${SystemFunctions.animalsInLine[i-1].name} the ${SystemFunctions.animalsInLine[i-1].animalType} | size: ${SystemFunctions.animalsInLine[i-1].animalSize} | days left: ${SystemFunctions.animalsInLine[i-1].amountOfDayLeft} | Money: $${SystemFunctions.animalsInLine[i-1].moneyForAnimal}  `;
+                const animal = SystemFunctions.animalsInLine[i - 1];
+                animalOption.textContent = `${animal.name} the ${animal.animalType} | size: ${animal.animalSize} | days left: ${animal.amountOfDayLeft} | Money: $${animal.moneyForAnimal}`;
             }
         }
-
         divToShow.style.display = "grid";
-    }
-    else{
+    } else {
         divToShow.style.display = "none";
     }
-});
-
-// Add event listeners to animal selection buttons once on page load
-for(let i = 1; i <= 5; i++){
-    const button = document.getElementById(`animal-select-${i}`);
-    button.addEventListener('click', function(e){
-        e.preventDefault();
-        const index = parseInt(button.id.split("-")[2]) - 1;
-        
-        if(SystemFunctions.animalsInLine.length === 0 || index >= SystemFunctions.animalsInLine.length){
-            alert("No animal available in this slot!");
-            return;
-        }
-        
-        const animalToCheckIn = SystemFunctions.animalsInLine[index];
-        if(hotel.hotelCapacity >= animalToCheckIn.animalSize){
-            alert(`You checked in ${animalToCheckIn.name} the ${animalToCheckIn.animalType}!`);
-
-            hotel.AddAnimal(animalToCheckIn);
-            hotel.hotelCapacity -= animalToCheckIn.animalSize;
-            const capacityStat = document.getElementById("stat-capacity");
-            capacityStat.textContent = `${4 - hotel.hotelCapacity} / 4`;
-            divToShow.style.display = "none";
-            document.getElementById("empty-message-guest").style.display = "none";
-
-            // Remove animal from the waiting line
-            SystemFunctions.removeAnimal(animalToCheckIn);
-            SystemFunctions.fillAnimalLine();
-
-            updateGuestList();
-        }
-        else{
-            alert(`You don't have enough space to check in ${animalToCheckIn.name} the ${animalToCheckIn.animalType}!`);
-        }
-    });
 }
 
-function updateGuestList(){
+// Add event listeners to animal selection buttons
+for (let i = 1; i <= 5; i++) {
+    const button = document.getElementById(`animal-select-${i}`);
+    button.addEventListener('click', checkInSelectedAnimal);
+}
+
+/**
+ * Handles checking in a selected animal to the hotel.
+ * @param {Event} e - The click event
+ */
+function checkInSelectedAnimal(e) {
+    e.preventDefault();
+    const index = parseInt(this.id.split("-")[2]) - 1;
+    
+    if (SystemFunctions.animalsInLine.length === 0 || index >= SystemFunctions.animalsInLine.length) {
+        alert("No animal available in this slot!");
+        return;
+    }
+    
+    const animalToCheckIn = SystemFunctions.animalsInLine[index];
+    if (hotel.hotelCapacity >= animalToCheckIn.animalSize) {
+        alert(`You checked in ${animalToCheckIn.name} the ${animalToCheckIn.animalType}!`);
+
+        hotel.addAnimal(animalToCheckIn);
+        hotel.hotelCapacity -= animalToCheckIn.animalSize;
+        const capacityStat = document.getElementById("stat-capacity");
+        capacityStat.textContent = `${TOTAL_HOTEL_SPACES - hotel.hotelCapacity} / ${TOTAL_HOTEL_SPACES}`;
+        divToShow.style.display = "none";
+        document.getElementById("empty-message-guest").style.display = "none";
+
+        SystemFunctions.removeAnimal(animalToCheckIn);
+        SystemFunctions.fillAnimalLine();
+
+        updateGuestList();
+    } else {
+        alert(`You don't have enough space to check in ${animalToCheckIn.name} the ${animalToCheckIn.animalType}!`);
+    }
+}
+
+/**
+ * Updates the displayed list of guests currently in the hotel.
+ */
+function updateGuestList() {
     const guestList = document.getElementById("animal-checked-in-list");
     guestList.innerHTML = "";
-    for(let animal of hotel.animalsInHotel){
+    for (let i = 0; i < hotel.animalsInHotel.length; i++) {
+        const animal = hotel.animalsInHotel[i];
         const newCard = document.createElement("div");
         newCard.className = "guest-card";
+        newCard.id = `guest-card-${i + 1}`;
         newCard.innerHTML = `
             <div class="guest-card-header">
                 <h3>🐾 ${animal.name}</h3>
@@ -84,46 +109,51 @@ function updateGuestList(){
         `;
         guestList.appendChild(newCard);
     }
+    if (hotel.animalsInHotel.length < 1) {
+        document.getElementById("empty-message-guest").style.display = "block";
+    }
 }
 
 
 //2nd function: check animal out
-const animalOutButton = document.getElementById("check-out-btn");
-animalOutButton.addEventListener('click',function(e){
+/**
+ * Checks out all animals whose stay duration has ended.
+ * Adds their fees to the hotel's money and frees up hotel space.
+ * @param {Event} e - The click event
+ */
+function checkOutAnimal(e) {
     e.preventDefault();
-    checkOutAnimal();
-});
 
-function checkOutAnimal(){
-
-    if(hotel.animalsInHotel.length === 0){
+    if (hotel.animalsInHotel.length === 0) {
         return;
     }
 
-    let animalToRemove = 0;
-    for(let animal of hotel.animalsInHotel){
-        if(animal.amountOfDayLeft <= 0){
-            animalToRemove++;
+    // Count animals ready for checkout
+    let animalsReadyForCheckout = 0;
+    for (let animal of hotel.animalsInHotel) {
+        if (animal.amountOfDayLeft <= 0) {
+            animalsReadyForCheckout++;
         }
     }
     
-    if(animalToRemove > 0){
-        for(let i = hotel.animalsInHotel.length - 1; i >= 0; i--){
-            if(hotel.animalsInHotel[i].amountOfDayLeft <= 0){
-                alert(`${hotel.animalsInHotel[i].name} has checked out!`)
-                hotel.hotelCapacity += hotel.animalsInHotel[i].animalSize;
-                hotel.hotelMoney += hotel.animalsInHotel[i].moneyForAnimal;
+    if (animalsReadyForCheckout > 0) {
+        // Remove animals in reverse order to prevent index issues
+        for (let i = hotel.animalsInHotel.length - 1; i >= 0; i--) {
+            const animal = hotel.animalsInHotel[i];
+            if (animal.amountOfDayLeft <= 0) {
+                alert(`${animal.name} has checked out!`);
+                hotel.hotelCapacity += animal.animalSize;
+                hotel.hotelMoney += animal.moneyForAnimal;
                 const capacityStat = document.getElementById("stat-capacity");
-                capacityStat.textContent = `${4 - hotel.hotelCapacity} / 4`;
-                const moneyOfUser = document.getElementById("stat-money");
-                moneyOfUser.textContent = `$${hotel.hotelMoney}`;
+                capacityStat.textContent = `${TOTAL_HOTEL_SPACES - hotel.hotelCapacity} / ${TOTAL_HOTEL_SPACES}`;
+                const moneyDisplay = document.getElementById("stat-money");
+                moneyDisplay.textContent = `$${hotel.hotelMoney}`;
 
                 hotel.animalsInHotel.splice(i, 1);
             }
         }
         updateGuestList();
-    }
-    else{
+    } else {
         alert("No animals are ready to check out yet!");
     }
 }
@@ -132,31 +162,35 @@ function checkOutAnimal(){
 
 
 
-
- /**
- * Does everything that needs to be done when the player clicks the "Pass Day" button, such as decreasing the amount of days left for each animal, checking if any animal needs to be removed, etc.
+/**
+ * Processes a day passing in the game.
+ * Deducts daily fees, decreases animal stay duration, increments day counter,
+ * and checks debt status.
+ * @param {Event} e - The click event
  */
-const passDayButton = document.getElementById("pass-day-btn");
+function passDay(e) {
+    e.preventDefault();
 
-    passDayButton.addEventListener('click',function(e){
-        e.preventDefault();
-        //First, decrease the money amount
-        hotel.hotelMoney -= hotel.dailyFee;
-        const moneyOfUser = document.getElementById("stat-money");
-        moneyOfUser.textContent = `$${hotel.hotelMoney}`;
+    // Deduct daily fee
+    hotel.hotelMoney -= hotel.dailyFee;
+    const moneyDisplay = document.getElementById("stat-money");
+    moneyDisplay.textContent = `$${hotel.hotelMoney}`;
 
-        //Second, decrease the remaining days for each checked in animal
-        if(hotel.animalsInHotel.length > 0){
-            for(let animal of hotel.animalsInHotel){
+    // Decrease remaining days for each animal
+    if (hotel.animalsInHotel.length > 0) {
+        for (let animal of hotel.animalsInHotel) {
             animal.amountOfDayLeft--;
-            }
         }
+    }
 
-        //Increase the day counter
-        const dayCounter = document.getElementById("stat-day");
-        hotel.dayCount++;
-        dayCounter.textContent = `${hotel.dayCount}`;
+    // Increment day counter
+    hotel.dayCount++;
+    const dayCounter = document.getElementById("stat-day");
+    dayCounter.textContent = `${hotel.dayCount}`;
 
-        hotel.CheckDayInDebt();
-        updateGuestList();
-    });   
+    // Check debt status
+    hotel.checkDayInDebt();
+
+    // Update guest list to reflect changes
+    updateGuestList();
+}   
