@@ -199,6 +199,17 @@ function checkOutAnimal(e) {
  */
 function passDay(e) {
     e.preventDefault();
+    
+    // Check animal satisfaction and removes them if not satified
+    if(hotel.animalsInHotel.length > 0){
+        for(let i = hotel.animalsInHotel.length - 1; i >= 0; i--){
+            if(hotel.animalsInHotel[i].checkSatisfaction() == false){
+                alert(`${hotel.animalsInHotel[i].name} the ${hotel.animalsInHotel[i].animalType} left the hotel after not being take care of!`)
+                hotel.animalsInHotel.splice(i, 1);
+            }
+        }
+    }
+
 
     // Deduct daily fee
     hotel.hotelMoney -= hotel.dailyFee;

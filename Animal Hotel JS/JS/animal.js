@@ -55,6 +55,14 @@ class Animal {
         this.needsFood = true;
         this.needsWater = true;
     }
+
+    checkSatisfaction(){
+        let satisfied = true;
+        if(this.needsFood == true || this.needsWalk == true || this.needsWater == true){
+            satisfied = false;
+        }
+        return satisfied;
+    }
 }
 
 /**
