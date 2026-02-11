@@ -2,6 +2,9 @@
  * Represents an animal guest at the hotel.
  * @class
  */
+
+import { SystemFunctions } from "./systemFunctions.js";
+
 class Animal {
     /**
      * Creates a new Animal instance.
@@ -99,6 +102,7 @@ class Hotel {
         //Hotel lists
         this.animalsInHotel = [];
         this.foodInStock = [];
+        this.foodStock = {}; // Food inventory as an object {foodType: quantity}
 
         //Hotel day counters
         this.dayCount = 1;
@@ -173,7 +177,7 @@ class Hotel {
      * Calculates how much xp needed for a new level
      */
     calculateXpNeeded(){
-        this.xpToLevelUp = XP_TO_LEVEL_UP * Math.floor(Math.sqrt(this.currentLevel));
+        this.xpToLevelUp = Hotel.XP_TO_LEVEL_UP * Math.floor(Math.sqrt(this.currentLevel));
     }
 
     /**
@@ -183,8 +187,9 @@ class Hotel {
         if(this.currentXpAmount >= this.xpToLevelUp){
             this.currentXpAmount -= this.xpToLevelUp;
             this.currentLevel++;
+            this.calculateXpNeeded();
+            SystemFunctions.showLevelUpModal(this.currentLevel);
         }
     }
 }
-
 export { Animal, Hotel };

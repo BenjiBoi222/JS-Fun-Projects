@@ -17,6 +17,16 @@
         </div>
     </div>
 
+    <!-- Level Up Popup Modal -->
+    <div id="levelup-modal" class="modal hidden">
+        <div class="modal-content levelup-content">
+            <h2>⭐ LEVEL UP! ⭐</h2>
+            <p id="levelup-text">You have reached level <span id="new-level">2</span>!</p>
+            <p id="levelup-reward">New upgrades are available in the shop!</p>
+            <button id="levelup-close-btn">Continue</button>
+        </div>
+    </div>
+
     <div id="game-container">
         <header>
             <div class="header-content">
@@ -140,6 +150,16 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div id="food-purchase-input" style="margin-top: 10px;">
+                        <p><strong>Selected: <span id="selected-food-name">-</span></strong> - <span id="selected-food-price">$0</span> each</p>
+                        <div>
+                            <label for="food-quantity-input" style="color: #fff;">Quantity:</label>
+                            <input type="number" id="food-quantity-input" placeholder="Enter amount" min="1" value="1">
+                            <span id="total-cost">Total: $0</span>
+                            <button id="confirm-food-purchase-btn">Confirm</button>
+                            <button id="cancel-food-purchase-btn">Cancel</button>
+                        </div>
+                    </div>
                 </div>
                 <div id="slots-shop-display" class="shop-display" style="display: none; margin-top: 20px;">
                     <h3>🛏️ Buy Hotel Slots</h3>

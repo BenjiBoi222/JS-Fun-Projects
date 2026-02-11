@@ -4,6 +4,7 @@
 
 import { hotel } from "./register.js";
 import { updateGuestList } from "./functions.js";
+import { updateFoodStockDisplay } from "./shop.js";
 
 //1 things we need to do in this file:
 //3. Allow the player to fulfill the animal's needs (walk, feed, water)
@@ -35,6 +36,7 @@ walkButton.addEventListener('click', (event) => {
 waterButton.addEventListener('click', (event) => {
     event.preventDefault();
     let caredForAnimals = 0;
+
     for(let animal of hotel.animalsInHotel){
         if (animal.needsWater == true && caredForAnimals < hotel.workersAmount) {
             animal.water();
@@ -49,3 +51,24 @@ waterButton.addEventListener('click', (event) => {
 })
 
 //Feeding animals
+feedButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    let caredForAnimals = 0;
+
+    for(let animal of hotel.animalsInHotel){
+        if (animal.needsFood == true) {
+            if(hotel.foodStock[animal.needFoodType] >= animal.amountOfFoodPerDay && caredForAnimals < hotel.workersAmount){
+                animal.feed();
+                hotel.foodStock[animal.needFoodType] -= animal.amountOfFoodPerDay;
+                caredForAnimals++;
+                alert(`You fed ${animal.name} with ${animal.needFoodType}!`);
+                
+                updateFoodStockDisplay();
+            }
+            else{
+                alert(`Not enough ${animal.needFoodType} to feed ${animal.name}!`);
+            }
+        }
+    }
+    updateGuestList();
+});

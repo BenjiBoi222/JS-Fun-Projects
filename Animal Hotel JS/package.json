@@ -1,0 +1,25 @@
+{
+  "name": "animal-hotel-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "build": {
+    "appId": "com.yourname.animalhotel",
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^40.3.0",
+    "electron-builder": "^26.7.0",
+    "electron-packager": "^17.1.2"
+  }
+}

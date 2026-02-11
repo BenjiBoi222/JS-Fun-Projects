@@ -58,6 +58,38 @@ class SystemFunctions {
             parentUl.appendChild(newLi);
         }
     }
+
+    /**
+     * Shows the level up modal with beautiful effects and auto-closes after 5 seconds
+     * @param {number} newLevel - The new level the player reached
+     */
+    static showLevelUpModal(newLevel) {
+        const modal = document.getElementById("levelup-modal");
+        const gameContainer = document.getElementById("game-container");
+        const newLevelSpan = document.getElementById("new-level");
+        const closeButton = document.getElementById("levelup-close-btn");
+
+        // Update the level display
+        newLevelSpan.textContent = newLevel;
+
+        // Show modal and blur background
+        modal.classList.remove("hidden");
+        gameContainer.classList.add("blurred");
+
+        // Create a function to close the modal
+        const closeLevelUpModal = () => {
+            modal.classList.add("hidden");
+            gameContainer.classList.remove("blurred");
+            closeButton.removeEventListener("click", closeLevelUpModal);
+            clearTimeout(autoCloseTimeout);
+        };
+
+        // Allow clicking the button to close early
+        closeButton.addEventListener("click", closeLevelUpModal);
+
+        // Auto-close after 5 seconds
+        const autoCloseTimeout = setTimeout(closeLevelUpModal, 5000);
+    }
 }
 
 export { SystemFunctions };
