@@ -88,7 +88,7 @@ class Hotel {
         //Hotel elements
         this.hotelCapacity = Hotel.DEFAULT_CAPACITY;
         this.name = name;
-        this.workersAmount = 0;
+        this.workersAmount = 1;
         
         //Every money element
         this.hasLoan = false;

@@ -113,7 +113,9 @@ function updateXpBar() {
  */
 function updateGuestList() {
     const guestList = document.getElementById("animal-checked-in-list");
+    const careList = document.getElementById("care-animal-list");
     guestList.innerHTML = "";
+    careList.innerHTML = "";
     for (let i = 0; i < hotel.animalsInHotel.length; i++) {
         const animal = hotel.animalsInHotel[i];
         const animalNeeds = getAnimalNeeds(animal);
@@ -151,12 +153,17 @@ function updateGuestList() {
             </div>
         `;
         guestList.appendChild(newCard);
+        careList.appendChild(newCard.cloneNode(true));
     }
     if (hotel.animalsInHotel.length < 1) {
         document.getElementById("empty-message-guest").style.display = "block";
+        document.getElementById("empty-message-care").style.display = "block";
+    } else {
+        document.getElementById("empty-message-guest").style.display = "none";
+        document.getElementById("empty-message-care").style.display = "none";
     }
 }
-
+export { updateGuestList };
 
 //2nd function: check animal out
 /**
