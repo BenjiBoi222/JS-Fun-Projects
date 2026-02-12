@@ -2,7 +2,7 @@
   "name": "animal-hotel-js",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "starter.js",
   "build": {
     "appId": "com.yourname.animalhotel",
     "win": {
