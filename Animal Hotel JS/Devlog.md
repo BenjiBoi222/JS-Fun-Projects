@@ -4,6 +4,9 @@ Todo: Must implement features:
     *Add the leveling system.*
         Currently the player has no use of the levels he gains.
         Add stuff like shop limitation for that
+    ----
+    *Make an alert popup*
+        The base alert is fine, but looks very unprofessional
 
 !Important fixes!:
 -----------------

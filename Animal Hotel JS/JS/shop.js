@@ -179,11 +179,32 @@ function handleSlotsPurchase(event) {
  * @param {Event} event - The click event
  */
 function handleWorkerPurchase(event) {
+    let workerAmountPlayerCanHire = 1;
+
+    switch (true){
+        case hotel.currentLevel >= 5 && hotel.currentLevel < 10:
+            workerAmountPlayerCanHire = 2;
+            break;
+        case hotel.currentLevel >= 10 && hotel.currentLevel < 15:
+            workerAmountPlayerCanHire = 3;
+            break;
+        case hotel.currentLevel >= 15 && hotel.currentLevel < 20:
+            workerAmountPlayerCanHire = 4;
+            break;
+        case hotel.currentLevel >= 20:
+            workerAmountPlayerCanHire = 5;
+            break;
+    }
+
     const workers = parseInt(event.target.dataset.workers);
     const cost = parseInt(event.target.dataset.cost);
     const dailySalary = workers * 30;
     
-    if (hotel.hotelMoney >= cost) {
+    if(workers + hotel.workersAmount > workerAmountPlayerCanHire ){
+        alert(`You can only have up to ${workerAmountPlayerCanHire} workers at your current hotel level!`);
+        return; 
+    }else{
+        if (hotel.hotelMoney >= cost) {
         hotel.hotelMoney -= cost;
         moneyDisplay.textContent = `$${hotel.hotelMoney}`;
         
@@ -199,6 +220,9 @@ function handleWorkerPurchase(event) {
     } else {
         alert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`);
     }
+    }
+    
+    
 }
 
 /**
