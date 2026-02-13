@@ -18,6 +18,8 @@ const careButton = document.getElementById("animal-care-btn");
 const bankButton = document.getElementById("bank-menu-btn");
 const guestButton = document.getElementById("guest-menu-btn");
 
+
+
 // Initialize menu buttons
 showDifferentMenu(shopButton, shopMenu, guestMenu, bankMenu, careMenu);
 showDifferentMenu(careButton, careMenu, guestMenu, bankMenu, shopMenu);
@@ -83,7 +85,7 @@ function takeOutLoan(button) {
             const dailyFeeElement = document.getElementById("stat-daily-fee");
             dailyFeeElement.textContent = `$${hotel.dailyFee}`;
         } else {
-            alert("You already have a loan. Pay it back before taking out another one.");
+            showAlert("You already have a loan. Pay it back before taking out another one.", "💳 Loan Error");
         }
     });
 }

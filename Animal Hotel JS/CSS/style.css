@@ -264,6 +264,39 @@ header {
     text-align: right;
 }
 
+/* Alert Container */
+.alert-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #1a1a1a;
+    border: 2px solid #8b4513;
+    min-height: 30px;
+}
+
+.alert-label {
+    font-size: 0.7em;
+    color: #ff9999;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0px #000;
+    min-width: 120px;
+    white-space: nowrap;
+}
+
+.alert-message {
+    flex: 1;
+    font-size: 0.65em;
+    color: #fff;
+    text-shadow: 1px 1px 0px #000;
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    max-height: 50px;
+    overflow-y: auto;
+}
+
 /* Main Content */
 main {
     display: grid;

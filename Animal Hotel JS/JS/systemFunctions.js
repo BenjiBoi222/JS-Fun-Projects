@@ -90,6 +90,35 @@ class SystemFunctions {
         // Auto-close after 5 seconds
         const autoCloseTimeout = setTimeout(closeLevelUpModal, 5000);
     }
+
+    static showAlert(message, title = "System Alert") {
+        const modal = document.getElementById("alert-modal");
+        const gameContainer = document.getElementById("game-container");
+        const alertMessage = document.getElementById("alert-message");
+        const closeButton = document.getElementById("alert-close-btn");
+
+        // Update the alert message
+        alertMessage.textContent = message;
+
+        // Show modal and blur background
+        modal.classList.remove("hidden");
+        gameContainer.classList.add("blurred");
+
+        // Create a function to close the modal
+        const closeAlertModal = () => {
+            modal.classList.add("hidden");
+            gameContainer.classList.remove("blurred");
+            closeButton.removeEventListener("click", closeAlertModal);
+            clearTimeout(autoCloseTimeout);
+        };
+
+        // Allow clicking the button to close early
+        closeButton.addEventListener("click", closeAlertModal);
+
+        // Auto-close after 5 seconds
+        const autoCloseTimeout = setTimeout(closeAlertModal, 5000);
+    }
+    
 }
 
 export { SystemFunctions };

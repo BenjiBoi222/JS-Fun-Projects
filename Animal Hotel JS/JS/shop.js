@@ -3,6 +3,7 @@
  */
 
 import { hotel } from "./register.js";
+import { SystemFunctions } from "./systemFunctions.js";
 
 // DOM Elements
 const buyFoodBtn = document.getElementById("buy-food-btn");
@@ -115,7 +116,7 @@ function confirmFoodPurchase() {
     const quantity = parseInt(foodQuantityInput.value);
     
     if (isNaN(quantity) || quantity <= 0) {
-        alert("Invalid quantity!");
+        SystemFunctions.showAlert("Please enter a valid quantity!", "Invalid Quantity");
         return;
     }
     
@@ -131,10 +132,10 @@ function confirmFoodPurchase() {
         hotel.foodStock[selectedFoodItemName] += quantity;
         
         updateFoodStockDisplay();
-        alert(`Successfully bought ${quantity} units of ${selectedFoodItemName}!`);
+        SystemFunctions.showAlert(`Successfully bought ${quantity} units of ${selectedFoodItemName}!`, "Food Purchase Success");
         cancelFoodPurchase();
     } else {
-        alert(`You don't have enough money! You need $${totalCost} but only have $${hotel.hotelMoney}`);
+        SystemFunctions.showAlert(`You don't have enough money! You need $${totalCost} but only have $${hotel.hotelMoney}`, "Food Purchase Failed");
     }
 }
 
@@ -175,7 +176,7 @@ function handleSlotsPurchase(event) {
     const dailyMaintenance = slots * 10;
 
     if(slots + hotel.hotelCapacity > slotAmountPlayerCanBuy ){
-        alert(`You can only purchase up to ${slotAmountPlayerCanBuy} slots at lvl${hotel.currentLevel}!`);
+        SystemFunctions.showAlert(`You can only have up to ${slotAmountPlayerCanBuy} slots at lvl${hotel.currentLevel}!`, "🚪 Slot Purchase Limit");
         return; 
     }
     
@@ -190,9 +191,9 @@ function handleSlotsPurchase(event) {
         hotel.dailyFee += dailyMaintenance;
         dailyFeeDisplay.textContent = `$${hotel.dailyFee}`;
         
-        alert(`Successfully bought ${slots} slot(s)! Daily maintenance cost: $${dailyMaintenance}`);
+        SystemFunctions.showAlert(`Successfully bought ${slots} slot(s)! Daily maintenance cost: $${dailyMaintenance}`, "🚪 Slot Purchase Success");
     } else {
-        alert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`);
+        SystemFunctions.showAlert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`, "🚪 Slot Purchase Failed");
     }
 }
 
@@ -223,7 +224,7 @@ function handleWorkerPurchase(event) {
     const dailySalary = workers * 30;
     
     if(workers + hotel.workersAmount > workerAmountPlayerCanHire ){
-        alert(`You can only have up to ${workerAmountPlayerCanHire} workers at at lvl${hotel.currentLevel}!`);
+        SystemFunctions.showAlert(`You can only have up to ${workerAmountPlayerCanHire} workers at at lvl${hotel.currentLevel}!`, "👤 Worker Hire Limit");
         return; 
     }else{
         if (hotel.hotelMoney >= cost) {
@@ -238,9 +239,9 @@ function handleWorkerPurchase(event) {
             hotel.dailyFee += dailySalary;
             dailyFeeDisplay.textContent = `$${hotel.dailyFee}`;
             
-            alert(`Successfully hired ${workers} worker(s)! Daily salary cost: $${dailySalary}`);
+            SystemFunctions.showAlert(`Successfully hired ${workers} worker(s)! Daily salary cost: $${dailySalary}`, "👤 Worker Hire Success");
         } else {
-            alert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`);
+            SystemFunctions.showAlert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`, "👤 Worker Hire Failed");
         }
     }
     
