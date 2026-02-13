@@ -153,9 +153,31 @@ function cancelFoodPurchase() {
  * @param {Event} event - The click event
  */
 function handleSlotsPurchase(event) {
+    let slotAmountPlayerCanBuy = 5;
+
+   switch (true){
+        case hotel.currentLevel >= 5 && hotel.currentLevel < 10:
+            slotAmountPlayerCanBuy = 6;
+            break;
+        case hotel.currentLevel >= 10 && hotel.currentLevel < 15:
+            slotAmountPlayerCanBuy = 8;
+            break;
+        case hotel.currentLevel >= 15 && hotel.currentLevel < 20:
+            slotAmountPlayerCanBuy = 12;
+            break;
+        case hotel.currentLevel >= 20:
+            slotAmountPlayerCanBuy = 20;
+            break;
+    }
+
     const slots = parseInt(event.target.dataset.slots);
     const cost = parseInt(event.target.dataset.cost);
     const dailyMaintenance = slots * 10;
+
+    if(slots + hotel.hotelCapacity > slotAmountPlayerCanBuy ){
+        alert(`You can only purchase up to ${slotAmountPlayerCanBuy} slots at lvl${hotel.currentLevel}!`);
+        return; 
+    }
     
     if (hotel.hotelMoney >= cost) {
         hotel.hotelMoney -= cost;
@@ -201,25 +223,25 @@ function handleWorkerPurchase(event) {
     const dailySalary = workers * 30;
     
     if(workers + hotel.workersAmount > workerAmountPlayerCanHire ){
-        alert(`You can only have up to ${workerAmountPlayerCanHire} workers at your current hotel level!`);
+        alert(`You can only have up to ${workerAmountPlayerCanHire} workers at at lvl${hotel.currentLevel}!`);
         return; 
     }else{
         if (hotel.hotelMoney >= cost) {
-        hotel.hotelMoney -= cost;
-        moneyDisplay.textContent = `$${hotel.hotelMoney}`;
-        
-        hotel.workersAmount += workers;
-        totalWorkerHired += workers;
-        workerAmountDisplay.textContent = hotel.workersAmount;
-        
-        workerSalaryCost += dailySalary;
-        hotel.dailyFee += dailySalary;
-        dailyFeeDisplay.textContent = `$${hotel.dailyFee}`;
-        
-        alert(`Successfully hired ${workers} worker(s)! Daily salary cost: $${dailySalary}`);
-    } else {
-        alert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`);
-    }
+            hotel.hotelMoney -= cost;
+            moneyDisplay.textContent = `$${hotel.hotelMoney}`;
+            
+            hotel.workersAmount += workers;
+            totalWorkerHired += workers;
+            workerAmountDisplay.textContent = hotel.workersAmount;
+            
+            workerSalaryCost += dailySalary;
+            hotel.dailyFee += dailySalary;
+            dailyFeeDisplay.textContent = `$${hotel.dailyFee}`;
+            
+            alert(`Successfully hired ${workers} worker(s)! Daily salary cost: $${dailySalary}`);
+        } else {
+            alert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`);
+        }
     }
     
     
