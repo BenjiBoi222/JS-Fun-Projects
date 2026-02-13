@@ -91,14 +91,16 @@ class SystemFunctions {
         const autoCloseTimeout = setTimeout(closeLevelUpModal, 5000);
     }
 
-    static showAlert(message, title = "System Alert") {
+    static showAlert(message, title = "🔔 System Alert 🔔", timeout = 5000) {
         const modal = document.getElementById("alert-modal");
         const gameContainer = document.getElementById("game-container");
         const alertMessage = document.getElementById("alert-message");
         const closeButton = document.getElementById("alert-close-btn");
+        const alertLabel = document.querySelector("#alert-modal .alert-content h2");
 
         // Update the alert message
         alertMessage.textContent = message;
+        alertLabel.textContent = title;
 
         // Show modal and blur background
         modal.classList.remove("hidden");
@@ -111,12 +113,12 @@ class SystemFunctions {
             closeButton.removeEventListener("click", closeAlertModal);
             clearTimeout(autoCloseTimeout);
         };
-
+        
         // Allow clicking the button to close early
         closeButton.addEventListener("click", closeAlertModal);
 
-        // Auto-close after 5 seconds
-        const autoCloseTimeout = setTimeout(closeAlertModal, 5000);
+        // Auto-close after the specified timeout
+        const autoCloseTimeout = setTimeout(closeAlertModal, timeout);
     }
     
 }

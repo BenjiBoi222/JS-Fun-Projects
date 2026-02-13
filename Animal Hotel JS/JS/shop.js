@@ -224,7 +224,7 @@ function handleWorkerPurchase(event) {
     const dailySalary = workers * 30;
     
     if(workers + hotel.workersAmount > workerAmountPlayerCanHire ){
-        SystemFunctions.showAlert(`You can only have up to ${workerAmountPlayerCanHire} workers at at lvl${hotel.currentLevel}!`, "👤 Worker Hire Limit");
+        SystemFunctions.showAlert(`You can only have up to ${workerAmountPlayerCanHire} workers at at lvl${hotel.currentLevel}!`, "👤 Worker Hire Limit", 3000);
         return; 
     }else{
         if (hotel.hotelMoney >= cost) {
@@ -239,9 +239,9 @@ function handleWorkerPurchase(event) {
             hotel.dailyFee += dailySalary;
             dailyFeeDisplay.textContent = `$${hotel.dailyFee}`;
             
-            SystemFunctions.showAlert(`Successfully hired ${workers} worker(s)! Daily salary cost: $${dailySalary}`, "👤 Worker Hire Success");
+            SystemFunctions.showAlert(`Successfully hired ${workers} worker(s)! Daily salary cost: $${dailySalary}`, "👤 Worker Hire Success", 2000);
         } else {
-            SystemFunctions.showAlert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`, "👤 Worker Hire Failed");
+            SystemFunctions.showAlert(`You don't have enough money! You need $${cost} but only have $${hotel.hotelMoney}`, "👤 Worker Hire Failed", 2000);
         }
     }
     
