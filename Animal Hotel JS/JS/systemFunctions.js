@@ -121,6 +121,45 @@ class SystemFunctions {
         const autoCloseTimeout = setTimeout(closeAlertModal, timeout);
     }
     
+    /**
+     *Creates the pop-up modal for the system messages
+     *
+     * @static
+     * @param {string} title
+     * @param {string} message1
+     * @param {string} message2 - not maditory
+     * @memberof SystemFunctions
+     */
+    static createPopUp(title, message1, message2){
+        const div = document.createElement('div');
+        div.id = "alert-modal";
+        div.className = "modal hidden";
+        document.body.appendChild(div);
+
+        const contentDiv = document.createElement('div');
+        contentDiv.id = "modal-content alert-content";
+        div.appendChild(contentDiv);
+
+        const h2 = document.createElement('h2');
+        h2.innerText = title;
+        contentDiv.appendChild(h2);
+
+        const p1 = document.createElement('p');
+        p1.innerText = message1;
+        p1.className = "alert-message";
+        contentDiv.appendChild(p1);
+
+        if(message2 === null){
+            const p2 = document.createElement('p');
+            p2.innerText = message2;
+            contentDiv.appendChild(p2);
+        }
+    }
+
+    static showPupOp(title, message1, message2){
+        
+    }
+
 }
 
 export { SystemFunctions };
