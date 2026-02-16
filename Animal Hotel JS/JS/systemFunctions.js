@@ -1,3 +1,6 @@
+import { Randomizer  } from "./randomizer.js";
+
+
 /**
  * A class that holds system functions for the game
  * Manages the animal waiting queue and showing popups

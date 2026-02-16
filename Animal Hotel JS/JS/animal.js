@@ -70,6 +70,27 @@ class Animal {
     }
 }
 
+class BasicAnimal extends Animal{
+    constructor(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp) {
+        super(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp)
+        
+    }
+}
+
+class SpecialAnimal extends Animal{
+    constructor(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp, specialNeed) {
+        super(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp)
+        
+        //This will add a special need to the special Animal
+        this.specialNeed = specialNeed;
+    }
+}
+
+
+
+
+
+
 /**
  * Represents the hotel that manages animals and finances.
  * @class
@@ -192,4 +213,4 @@ class Hotel {
         }
     }
 }
-export { Animal, Hotel };
+export { Animal, BasicAnimal, Hotel };
