@@ -60,104 +60,131 @@ class SystemFunctions {
     }
 
     /**
-     * Shows the level up modal with beautiful effects and auto-closes after 5 seconds
+     * Creates and displays a dynamic modal popup
+     * @param {string} title - The modal title
+     * @param {Array<{text: string, type: string}>} content - Array of content items (text with type: 'text', 'input', 'paragraph')
+     * @param {Array<{label: string, callback: Function}>} buttons - Array of buttons with labels and callbacks
+     * @param {number} timeout - Auto-close timeout in ms (0 for no auto-close)
+     * @returns {HTMLElement} The modal element
+     */
+    static createPopUp(title, content, buttons, timeout = 0) {
+        const modal = document.createElement('div');
+        modal.className = "modal";
+        modal.id = `modal-${Date.now()}`;
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = "modal-content";
+
+        const h2 = document.createElement('h2');
+        h2.textContent = title;
+        contentDiv.appendChild(h2);
+
+        // Add content items
+        if (Array.isArray(content)) {
+            content.forEach(item => {
+                if (item.type === 'text' || item.type === 'paragraph') {
+                    const p = document.createElement('p');
+                    p.textContent = item.text;
+                    contentDiv.appendChild(p);
+                } else if (item.type === 'input') {
+                    const input = document.createElement('input');
+                    input.type = item.inputType || 'text';
+                    input.placeholder = item.placeholder || '';
+                    input.id = item.id || '';
+                    if (item.maxLength) input.maxLength = item.maxLength;
+                    contentDiv.appendChild(input);
+                }
+            });
+        }
+
+        // Add buttons
+        if (Array.isArray(buttons)) {
+            buttons.forEach(btn => {
+                const button = document.createElement('button');
+                button.textContent = btn.label;
+                button.onclick = () => {
+                    if (btn.callback) btn.callback();
+                    this.closeModal(modal);
+                };
+                contentDiv.appendChild(button);
+            });
+        }
+
+        modal.appendChild(contentDiv);
+        document.body.appendChild(modal);
+
+        // Show modal and blur background
+        const gameContainer = document.getElementById("game-container");
+        if (gameContainer) gameContainer.classList.add("blurred");
+
+        // Auto-close if timeout is set
+        if (timeout > 0) {
+            setTimeout(() => this.closeModal(modal), timeout);
+        }
+
+        return modal;
+    }
+
+    /**
+     * Closes a modal and removes blur effect
+     * @param {HTMLElement} modal - The modal element to close
+     */
+    static closeModal(modal) {
+        modal.classList.add("hidden");
+        const gameContainer = document.getElementById("game-container");
+        if (gameContainer && !document.querySelector(".modal:not(.hidden)")) {
+            gameContainer.classList.remove("blurred");
+        }
+        setTimeout(() => modal.remove(), 300);
+    }
+
+    /**
+     * Shows the level up modal with auto-close after 5 seconds
      * @param {number} newLevel - The new level the player reached
      */
     static showLevelUpModal(newLevel) {
-        const modal = document.getElementById("levelup-modal");
-        const gameContainer = document.getElementById("game-container");
-        const newLevelSpan = document.getElementById("new-level");
-        const closeButton = document.getElementById("levelup-close-btn");
-
-        // Update the level display
-        newLevelSpan.textContent = newLevel;
-
-        // Show modal and blur background
-        modal.classList.remove("hidden");
-        gameContainer.classList.add("blurred");
-
-        // Create a function to close the modal
-        const closeLevelUpModal = () => {
-            modal.classList.add("hidden");
-            gameContainer.classList.remove("blurred");
-            closeButton.removeEventListener("click", closeLevelUpModal);
-            clearTimeout(autoCloseTimeout);
-        };
-
-        // Allow clicking the button to close early
-        closeButton.addEventListener("click", closeLevelUpModal);
-
-        // Auto-close after 5 seconds
-        const autoCloseTimeout = setTimeout(closeLevelUpModal, 5000);
+        const content = [
+            { type: 'text', text: `You have reached level ${newLevel}!` },
+            { type: 'text', text: 'New upgrades are available in the shop!' }
+        ];
+        const buttons = [
+            { label: 'Continue', callback: null }
+        ];
+        this.createPopUp('⭐ LEVEL UP! ⭐', content, buttons, 5000);
     }
 
-    static showAlert(message, title = "🔔 System Alert 🔔", timeout = 5000) {
-        const modal = document.getElementById("alert-modal");
-        const gameContainer = document.getElementById("game-container");
-        const alertMessage = document.getElementById("alert-message");
-        const closeButton = document.getElementById("alert-close-btn");
-        const alertLabel = document.querySelector("#alert-modal .alert-content h2");
-
-        // Update the alert message
-        alertMessage.textContent = message;
-        alertLabel.textContent = title;
-
-        // Show modal and blur background
-        modal.classList.remove("hidden");
-        gameContainer.classList.add("blurred");
-
-        // Create a function to close the modal
-        const closeAlertModal = () => {
-            modal.classList.add("hidden");
-            gameContainer.classList.remove("blurred");
-            closeButton.removeEventListener("click", closeAlertModal);
-            clearTimeout(autoCloseTimeout);
-        };
-        
-        // Allow clicking the button to close early
-        closeButton.addEventListener("click", closeAlertModal);
-
-        // Auto-close after the specified timeout
-        const autoCloseTimeout = setTimeout(closeAlertModal, timeout);
-    }
-    
     /**
-     *Creates the pop-up modal for the system messages
-     *
-     * @static
-     * @param {string} title
-     * @param {string} message1
-     * @param {string} message2 - not maditory
-     * @memberof SystemFunctions
+     * Shows an alert modal
+     * @param {string} message - The alert message
+     * @param {string} title - The alert title
+     * @param {number} timeout - Auto-close timeout in ms (default 5000)
      */
-    static createPopUp(title, message1, message2){
-        const div = document.createElement('div');
-        div.id = "alert-modal";
-        div.className = "modal hidden";
-        document.body.appendChild(div);
-
-        const contentDiv = document.createElement('div');
-        contentDiv.id = "modal-content alert-content";
-        div.appendChild(contentDiv);
-
-        const h2 = document.createElement('h2');
-        h2.innerText = title;
-        contentDiv.appendChild(h2);
-
-        const p1 = document.createElement('p');
-        p1.innerText = message1;
-        p1.className = "alert-message";
-        contentDiv.appendChild(p1);
-
-        if(message2 === null){
-            const p2 = document.createElement('p');
-            p2.innerText = message2;
-            contentDiv.appendChild(p2);
-        }
+    static showAlert(message, title = "🔔 System Alert 🔔", timeout = 5000) {
+        const content = [
+            { type: 'text', text: message }
+        ];
+        const buttons = [
+            { label: 'Close', callback: null }
+        ];
+        this.createPopUp(title, content, buttons, timeout);
     }
 
-    static showPupOp(title, message1, message2){
-        
+    /**
+     * Shows the hotel name input modal
+     * @param {Function} onConfirm - Callback when name is confirmed
+     */
+    static showHotelNameModal(onConfirm) {
+        const content = [
+            { type: 'text', text: 'What would you like to name your animal hotel?' },
+            { type: 'input', placeholder: 'Enter hotel name...', maxLength: 30, id: 'hotel-name-input' }
+        ];
+        const buttons = [
+            { label: 'Start Game', callback: () => {
+                const input = document.getElementById('hotel-name-input');
+                if (onConfirm) onConfirm(input.value);
+            }}
+        ];
+        this.createPopUp('Create Your Hotel', content, buttons, 0);
     }
 
 }
