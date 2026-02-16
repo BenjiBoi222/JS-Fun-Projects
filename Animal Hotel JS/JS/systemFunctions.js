@@ -93,6 +93,7 @@ class SystemFunctions {
                 if (btn.callback) {
                     btn.callback();
                 }
+                // Then close the modal
                 this.closeModal(modal);
             };
 
