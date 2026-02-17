@@ -55,32 +55,53 @@ class Animal {
     /**
      * Each day resets the animals needs.
      */
-    newNeedsForDay(){
+    newNeedsForDay() {
         this.needsWalk = true;
         this.needsFood = true;
         this.needsWater = true;
     }
 
-    checkSatisfaction(){
+    checkSatisfaction() {
         let satisfied = true;
-        if(this.needsFood == true || this.needsWalk == true || this.needsWater == true){
+        if (this.needsFood == true || this.needsWalk == true || this.needsWater == true) {
             satisfied = false;
         }
         return satisfied;
     }
 }
 
+class BasicAnimal extends Animal {
+    constructor(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp) {
+        super(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp)
+
+    }
+}
+
+class SpecialAnimal extends Animal {
+    constructor(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp, specialNeed) {
+        super(name, amountOfDayLeft, animalSize, moneyForAnimal, animalType, needFoodType, amountOfFoodPerDay, xp)
+
+        //This will add a special need to the special Animal
+        this.specialNeed = specialNeed;
+    }
+}
+
+
+
+
+
+
 /**
  * Represents the hotel that manages animals and finances.
  * @class
  */
 class Hotel {
+
     // Constants
     static DEFAULT_CAPACITY = 4;
     static STARTING_MONEY = 500;
     static STARTING_DAILY_FEE = 40;
     static MAX_DAYS_IN_DEBT = 7;
-    static LOAN_DURATION = 30;
     static XP_TO_LEVEL_UP = 100;
 
     /**
@@ -92,7 +113,7 @@ class Hotel {
         this.hotelCapacity = Hotel.DEFAULT_CAPACITY;
         this.name = name;
         this.workersAmount = 1;
-        
+
         //Every money element
         this.hasLoan = false;
         this.loanDayAmount = 0;
@@ -176,15 +197,15 @@ class Hotel {
     /**
      * Calculates how much xp needed for a new level
      */
-    calculateXpNeeded(){
+    calculateXpNeeded() {
         this.xpToLevelUp = Hotel.XP_TO_LEVEL_UP * Math.floor(Math.sqrt(this.currentLevel));
     }
 
     /**
      * Tries to level up the player if he has enough xp for it
      */
-    tryLevelUp(){
-        if(this.currentXpAmount >= this.xpToLevelUp){
+    tryLevelUp() {
+        if (this.currentXpAmount >= this.xpToLevelUp) {
             this.currentXpAmount -= this.xpToLevelUp;
             this.currentLevel++;
             this.calculateXpNeeded();
@@ -192,4 +213,4 @@ class Hotel {
         }
     }
 }
-export { Animal, Hotel };
+export { Animal, BasicAnimal, Hotel };
