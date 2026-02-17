@@ -6,6 +6,7 @@ import { Animal } from "./animal.js";
 import { SystemFunctions } from "./systemFunctions.js";
 import { Randomizer } from "./randomizer.js";
 import { hotel } from "./register.js";
+import { updateXpDisplay, toggleEmptyMessages } from "./utils.js";
 
 // Constants
 const TOTAL_HOTEL_SPACES = 4;
@@ -54,12 +55,12 @@ for (let i = 1; i <= 5; i++) {
 function checkInSelectedAnimal(e) {
     e.preventDefault();
     const index = parseInt(this.id.split("-")[2]) - 1;
-    
+
     if (SystemFunctions.animalsInLine.length === 0 || index >= SystemFunctions.animalsInLine.length) {
         alert("No animal available in this slot!");
         return;
     }
-    
+
     const animalToCheckIn = SystemFunctions.animalsInLine[index];
     if (hotel.hotelCapacity >= animalToCheckIn.animalSize) {
         alert(`You checked in ${animalToCheckIn.name} the ${animalToCheckIn.animalType}!`);
@@ -69,7 +70,6 @@ function checkInSelectedAnimal(e) {
         const capacityStat = document.getElementById("stat-capacity");
         capacityStat.textContent = `${TOTAL_HOTEL_SPACES - hotel.hotelCapacity} / ${TOTAL_HOTEL_SPACES}`;
         divToShow.style.display = "none";
-        document.getElementById("empty-message-guest").style.display = "none";
 
         SystemFunctions.removeAnimal(animalToCheckIn);
         SystemFunctions.fillAnimalLine();
@@ -101,7 +101,7 @@ function updateXpBar() {
     const xpBarFill = document.getElementById("xp-bar-fill");
     const xpCurrent = document.getElementById("xp-current");
     const xpMax = document.getElementById("xp-max");
-    
+
     const percentageFilled = (hotel.currentXpAmount / hotel.xpToLevelUp) * 100;
     xpBarFill.style.width = `${Math.min(percentageFilled, 100)}%`;
     xpCurrent.textContent = hotel.currentXpAmount;
@@ -155,13 +155,9 @@ function updateGuestList() {
         guestList.appendChild(newCard);
         careList.appendChild(newCard.cloneNode(true));
     }
-    if (hotel.animalsInHotel.length < 1) {
-        document.getElementById("empty-message-guest").style.display = "block";
-        document.getElementById("empty-message-care").style.display = "block";
-    } else {
-        document.getElementById("empty-message-guest").style.display = "none";
-        document.getElementById("empty-message-care").style.display = "none";
-    }
+
+    const isEmpty = hotel.animalsInHotel.length < 1;
+    toggleEmptyMessages(isEmpty, "empty-message-guest", "empty-message-care");
 }
 export { updateGuestList };
 
@@ -185,7 +181,7 @@ function checkOutAnimal(e) {
             animalsReadyForCheckout++;
         }
     }
-    
+
     if (animalsReadyForCheckout > 0) {
         // Remove animals in reverse order to prevent index issues
         for (let i = hotel.animalsInHotel.length - 1; i >= 0; i--) {
@@ -206,17 +202,10 @@ function checkOutAnimal(e) {
             }
         }
         updateGuestList();
-        
+
         hotel.tryLevelUp();
         updateXpBar();
-        
-        let hotelXp = document.getElementById("hotel-xp");
-        let hotelXpMax = document.getElementById("hotel-xp-max");
-        let hotelLevel = document.getElementById("hotel-level");
-        
-        hotelXp.textContent = `${hotel.currentXpAmount}`;
-        hotelXpMax.textContent = `${hotel.xpToLevelUp}`;
-        hotelLevel.textContent = `${hotel.currentLevel}`;
+        updateXpDisplay(hotel);
     } else {
         alert("No animals are ready to check out yet!");
     }
@@ -234,11 +223,11 @@ function checkOutAnimal(e) {
  */
 function passDay(e) {
     e.preventDefault();
-    
+
     // Check animal satisfaction and removes them if not satified
-    if(hotel.animalsInHotel.length > 0){
-        for(let i = hotel.animalsInHotel.length - 1; i >= 0; i--){
-            if(hotel.animalsInHotel[i].checkSatisfaction() == false){
+    if (hotel.animalsInHotel.length > 0) {
+        for (let i = hotel.animalsInHotel.length - 1; i >= 0; i--) {
+            if (hotel.animalsInHotel[i].checkSatisfaction() == false) {
                 alert(`${hotel.animalsInHotel[i].name} the ${hotel.animalsInHotel[i].animalType} left the hotel after not being take care of!`)
                 hotel.hotelCapacity += hotel.animalsInHotel[i].animalSize;
                 const capacityStat = document.getElementById("stat-capacity");
@@ -276,11 +265,5 @@ function passDay(e) {
     //We try to level up even after the day passes for more security
     hotel.tryLevelUp();
     updateXpBar();
-    let hotelXp = document.getElementById("hotel-xp");
-    let hotelXpMax = document.getElementById("hotel-xp-max");
-    let hotelLevel = document.getElementById("hotel-level");
-
-    hotelXp.textContent = `${hotel.currentXpAmount}`;
-    hotelXpMax.textContent = `${hotel.xpToLevelUp}`;
-    hotelLevel.textContent = `${hotel.currentLevel}`;      
-}   
+    updateXpDisplay(hotel);
+}

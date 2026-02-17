@@ -15,57 +15,57 @@ const walkButton = document.getElementById("walk-animals-btn");
 const feedButton = document.getElementById("give-food-btn");
 const waterButton = document.getElementById("give-water-btn");
 
+/**
+ * Generic function to handle animal care actions
+ * @param {string} needType - The type of need to check ('needsWalk', 'needsFood', 'needsWater')
+ * @param {string} actionName - The name of the action for messages ('walked', 'fed', 'gave water to')
+ * @param {Function} actionCallback - The action to perform on the animal
+ * @param {string} noNeedMessage - Message to show when no animals need this care
+ */
+function performAnimalCare(needType, actionName, actionCallback, noNeedMessage) {
+    let caredForAnimals = 0;
+
+    for (let animal of hotel.animalsInHotel) {
+        if (animal[needType] === true && caredForAnimals < hotel.workersAmount) {
+            actionCallback(animal);
+            caredForAnimals++;
+            alert(`You ${actionName} ${animal.name}!`);
+        }
+    }
+
+    if (caredForAnimals === 0) {
+        alert(noNeedMessage);
+    }
+    updateGuestList();
+}
+
 //Walking animals
 walkButton.addEventListener('click', (event) => {
     event.preventDefault();
-    let caredForAnimals = 0;
-    for(let animal of hotel.animalsInHotel){
-        if (animal.needsWalk == true && caredForAnimals < hotel.workersAmount) {
-            animal.walk();
-            caredForAnimals++;
-            alert(`You walked ${animal.name}!`);
-        }
-    }
-    if(caredForAnimals == 0){
-        alert("No animals need walking right now.");
-    }
-    updateGuestList();
+    performAnimalCare('needsWalk', 'walked', (animal) => animal.walk(), "No animals need walking right now.");
 });
 
 //Watering animals
 waterButton.addEventListener('click', (event) => {
     event.preventDefault();
-    let caredForAnimals = 0;
-
-    for(let animal of hotel.animalsInHotel){
-        if (animal.needsWater == true && caredForAnimals < hotel.workersAmount) {
-            animal.water();
-            caredForAnimals++;
-            alert(`You gave water to ${animal.name}!`);
-        }
-    }
-    if(caredForAnimals == 0){
-        alert("No animals need water right now.");
-    }
-    updateGuestList();
-})
+    performAnimalCare('needsWater', 'gave water to', (animal) => animal.water(), "No animals need water right now.");
+});
 
 //Feeding animals
 feedButton.addEventListener('click', (event) => {
     event.preventDefault();
     let caredForAnimals = 0;
 
-    for(let animal of hotel.animalsInHotel){
-        if (animal.needsFood == true) {
-            if(hotel.foodStock[animal.needFoodType] >= animal.amountOfFoodPerDay && caredForAnimals < hotel.workersAmount){
+    for (let animal of hotel.animalsInHotel) {
+        if (animal.needsFood === true) {
+            if (hotel.foodStock[animal.needFoodType] >= animal.amountOfFoodPerDay && caredForAnimals < hotel.workersAmount) {
                 animal.feed();
                 hotel.foodStock[animal.needFoodType] -= animal.amountOfFoodPerDay;
                 caredForAnimals++;
                 alert(`You fed ${animal.name} with ${animal.needFoodType}!`);
-                
+
                 updateFoodStockDisplay();
-            }
-            else{
+            } else {
                 alert(`Not enough ${animal.needFoodType} to feed ${animal.name}!`);
             }
         }
